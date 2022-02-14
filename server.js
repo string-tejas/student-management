@@ -12,7 +12,7 @@ const port = 5000 || process.env.PORT
 // middlewares
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: '*',
         credentials: true,
     })
 )
