@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000
 // middlewares
 app.use(
     cors({
-        origin: '*',
+        origin: 'https://student-management-tawny.vercel.app',
         credentials: true,
     })
 )
