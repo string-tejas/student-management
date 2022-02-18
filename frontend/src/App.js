@@ -17,6 +17,7 @@ function App() {
         const fetched = await fetch(`${process.env.REACT_APP_BACKEND}/user`, {
             method: 'GET',
             mode: 'cors',
+            withCredentials: true,
             credentials: 'include',
         }).then(res => res.json())
         console.log('App.js', fetched)

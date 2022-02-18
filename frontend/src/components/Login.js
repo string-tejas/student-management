@@ -27,16 +27,22 @@ export default function Login({ getUser }) {
         const password = passwordRef.current.value
 
         if (email && password) {
-            let result
-            await axios({
-                method: 'post',
-                data: {
-                    email: email,
-                    password: password,
-                },
-                withCredentials: true,
-                url: `${process.env.REACT_APP_BACKEND}/user/login`,
-            }).then(res => (result = res.data))
+            let result = await fetch(
+                `${process.env.REACT_APP_BACKEND}/user/login`,
+                {
+                    method: 'POST',
+                    mode: 'cors',
+                    withCredentials: true,
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                    }),
+                }
+            ).then(res => res.json())
 
             console.log('Login.js', result)
 

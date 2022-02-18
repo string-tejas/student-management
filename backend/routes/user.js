@@ -34,21 +34,28 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
 })
 
 // Login user
-router.post('/login', checkNotAuthenticated, (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        if (err) {
-            console.log(err.message)
-            res.json({ ok: false, message: 'error' })
-        } else if (!user) {
-            res.json({ ok: false, ...info })
-        } else {
-            req.logIn(user, err => {
-                if (err) res.json({ ok: false, message: 'error' })
-                else res.json({ ok: true, ...info })
-            })
-        }
-    })(req, res, next)
-})
+// router.post('/login', checkNotAuthenticated, (req, res, next) => {
+//     passport.authenticate('local', (err, user, info) => {
+//         if (err) {
+//             console.log(err.message)
+//             res.json({ ok: false, message: 'error' })
+//         } else if (!user) {
+//             res.json({ ok: false, ...info })
+//         } else {
+//             req.logIn(user, err => {
+//                 if (err) res.json({ ok: false, message: 'error' })
+//                 else res.json({ ok: true, ...info })
+//             })
+//         }
+//     })(req, res, next)
+// })
+router.post(
+    '/login',
+    checkNotAuthenticated,
+    passport.authenticate('local', {
+        successRedirect: '/',
+    })
+)
 
 // logout user
 router.delete('/login', checkAuthenticated, (req, res) => {
