@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { FormSubmit } from './Register'
+import axios from 'axios'
 import './form.css'
 import logoWide from '../images/logoWide.png'
 
@@ -26,21 +27,16 @@ export default function Login({ getUser }) {
         const password = passwordRef.current.value
 
         if (email && password) {
-            let result = await fetch(
-                `${process.env.REACT_APP_BACKEND}/user/login`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        email: email,
-                        password: password,
-                    }),
-                }
-            ).then(res => res.json())
+            let result
+            await axios({
+                method: 'post',
+                data: {
+                    email: email,
+                    password: password,
+                },
+                withCredentials: true,
+                url: `${process.env.REACT_APP_BACKEND}/user/login`,
+            }).then(res => (result = res.data))
 
             console.log('Login.js', result)
 
@@ -85,7 +81,7 @@ export default function Login({ getUser }) {
                     ref={passwordRef}
                     required
                 />
-                <FormSubmit isLoading={isLoading} text='Login'/>
+                <FormSubmit isLoading={isLoading} text='Login' />
                 <div className='form-footer'>
                     Don't have an Account ? <Link to='/register'>Register</Link>
                 </div>

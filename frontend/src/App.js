@@ -6,6 +6,7 @@ import {
     Navigate,
 } from 'react-router-dom'
 import { Login, Register, Dashboard } from './components/componentsList'
+import axios from 'axios'
 import './App.css'
 
 function App() {
@@ -13,12 +14,13 @@ function App() {
     const [isLoading, setIsLoading] = useState(true)
 
     const getUser = async () => {
-        const fetched = await fetch(`${process.env.REACT_APP_BACKEND}/user`, {
+        const fetched = await axios({
             method: 'GET',
-            credentials: 'include',
-        }).then(data => data.json())
+            withCredentials: 'true',
+            url: `${process.env.REACT_APP_BACKEND}/user`,
+        })
         console.log('App.js', fetched)
-        setUser(fetched)
+        setUser(fetched.data)
         setIsLoading(false)
     }
 
