@@ -31,12 +31,9 @@ export default function Login({ getUser }) {
                 {
                     method: 'POST',
                     headers: {
-                        Accept: 'application/json',
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include',
-                    sameSite : 'none',
-                    secure : 'true',
                     body: JSON.stringify({
                         email: email,
                         password: password,
