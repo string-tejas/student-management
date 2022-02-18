@@ -4,6 +4,7 @@ const initialize = require('./passportConfig')
 const passport = require('passport')
 const session = require('express-session')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 const app = express()
@@ -12,7 +13,10 @@ const port = process.env.PORT || 5000
 // middlewares
 app.use(
     cors({
-        origin: 'https://student-management-string-tejas.vercel.app',
+        origin: [
+            'https://student-management-string-tejas.vercel.app',
+            'http://localhost:3000',
+        ],
         credentials: true,
     })
 )
@@ -31,6 +35,7 @@ app.use(
     })
 )
 initialize(passport)
+app.use(cookieParser(process.env.SESSION_KEY))
 app.use(passport.initialize())
 app.use(passport.session())
 
