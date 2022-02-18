@@ -27,6 +27,9 @@ export default function Register() {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `bearer ${JSON.parse(
+                            localStorage.getItem('app:stud_man')
+                        )}`,
                     },
                     body: JSON.stringify({
                         name: name,

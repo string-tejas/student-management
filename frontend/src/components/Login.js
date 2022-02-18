@@ -31,11 +31,11 @@ export default function Login({ getUser }) {
                 `${process.env.REACT_APP_BACKEND}/user/login`,
                 {
                     method: 'POST',
-                    mode: 'cors',
-                    withCredentials: true,
-                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `bearer ${JSON.parse(
+                            localStorage.getItem('app:stud_man')
+                        )}`,
                     },
                     body: JSON.stringify({
                         email: email,
@@ -47,6 +47,10 @@ export default function Login({ getUser }) {
             console.log('Login.js', result)
 
             if (result.ok) {
+                localStorage.setItem(
+                    'app:stud_man',
+                    JSON.stringify(result.token)
+                )
                 getUser()
             } else {
                 setLoginStat(prevError => {

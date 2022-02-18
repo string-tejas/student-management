@@ -2,9 +2,8 @@ const express = require('express')
 const User = require('../models/modelUser')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const { checkNotAuthenticated, checkAuthenticated } = require('../middlewares')
-var passport
-
 // Register user
 const registerUser = async (name, email, password) => {
     try {
@@ -33,33 +32,47 @@ router.post('/register', checkNotAuthenticated, async (req, res) => {
     }
 })
 
-// Login user
-// router.post('/login', checkNotAuthenticated, (req, res, next) => {
-//     passport.authenticate('local', (err, user, info) => {
-//         if (err) {
-//             console.log(err.message)
-//             res.json({ ok: false, message: 'error' })
-//         } else if (!user) {
-//             res.json({ ok: false, ...info })
-//         } else {
-//             req.logIn(user, err => {
-//                 if (err) res.json({ ok: false, message: 'error' })
-//                 else res.json({ ok: true, ...info })
-//             })
-//         }
-//     })(req, res, next)
-// })
-router.post(
-    '/login',
-    checkNotAuthenticated,
-    passport.authenticate('local', {
-        successRedirect: '/',
-    })
-)
+// login user
+router.post('/login', checkNotAuthenticated, async (req, res) => {
+    let { email, password } = req.body
+    try {
+        const user = await User.findOne({ email: email })
+        if (user) {
+            if (await bcrypt.compare(password, user.password)) {
+                let signObj = {
+                    email: user.email,
+                    name: user.name,
+                }
+                const jwtToken = await jwt.sign(
+                    signObj,
+                    process.env.SESSION_KEY,
+                    { expiresIn: '48h' }
+                )
+                res.json({ ok: true, message: 'Logged in', token: jwtToken })
+            } else {
+                res.json({
+                    ok: false,
+                    message: 'Password Incorrect',
+                    email: true,
+                    password: false,
+                })
+            }
+        } else {
+            res.json({
+                ok: false,
+                message: 'User not found',
+                email: false,
+                password: true,
+            })
+        }
+    } catch (e) {
+        console.log(e.message)
+        res.json({ ok: false, message: 'error' })
+    }
+})
 
 // logout user
 router.delete('/login', checkAuthenticated, (req, res) => {
-    req.logOut()
     res.json({ ok: true, message: 'User Logged out' })
 })
 
@@ -68,7 +81,4 @@ router.get('/', checkAuthenticated, (req, res) => {
     res.json({ ok: true, name: req.user.name, email: req.user.email })
 })
 
-module.exports = function (initializedPassport) {
-    passport = initializedPassport
-    return router
-}
+module.exports = router

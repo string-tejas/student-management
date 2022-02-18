@@ -32,9 +32,11 @@ const StudentView = () => {
             `${process.env.REACT_APP_BACKEND}/student/`,
             {
                 method: 'DELETE',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
                 body: JSON.stringify({
                     _id: _id,
@@ -49,9 +51,11 @@ const StudentView = () => {
             `${process.env.REACT_APP_BACKEND}/student/edit`,
             {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
                 body: JSON.stringify(obj),
             }
@@ -91,9 +95,11 @@ const StudentView = () => {
             `${process.env.REACT_APP_BACKEND}/school/name`,
             {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
             }
         ).then(res => res.json())
@@ -106,9 +112,11 @@ const StudentView = () => {
             `${process.env.REACT_APP_BACKEND}/student/`,
             {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
             }
         ).then(res => res.json())
@@ -130,9 +138,11 @@ const StudentView = () => {
             `${process.env.REACT_APP_BACKEND}/student/search`,
             {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
                 body: JSON.stringify(reqObj),
             }

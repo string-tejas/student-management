@@ -13,9 +13,11 @@ const StudentAdd = () => {
             `${process.env.REACT_APP_BACKEND}/school/name`,
             {
                 method: 'GET',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
             }
         ).then(res => res.json())
@@ -31,9 +33,11 @@ const StudentAdd = () => {
             `${process.env.REACT_APP_BACKEND}/student/register`,
             {
                 method: 'POST',
-                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
                 },
                 body: JSON.stringify(reqObj),
             }

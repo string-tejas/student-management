@@ -19,9 +19,11 @@ const SchoolAdd = () => {
                 `${process.env.REACT_APP_BACKEND}/school/register`,
                 {
                     method: 'POST',
-                    credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
+                        Authorization: `bearer ${JSON.parse(
+                            localStorage.getItem('app:stud_man')
+                        )}`,
                     },
                     body: JSON.stringify({
                         name: school,

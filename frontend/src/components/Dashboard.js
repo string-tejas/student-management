@@ -15,10 +15,18 @@ const Dashboard = ({ user, getUser }) => {
     const handleLogoutClick = async () => {
         const fetched = await fetch(
             `${process.env.REACT_APP_BACKEND}/user/login`,
-            { method: 'DELETE', credentials: 'include' }
+            {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `bearer ${JSON.parse(
+                        localStorage.getItem('app:stud_man')
+                    )}`,
+                },
+            }
         ).then(res => res.json())
+        console.log('logout', fetched)
         if (fetched.ok) {
-            console.log(fetched.message)
+            localStorage.removeItem('app:stud_man')
             getUser()
         } else {
             console.log(fetched.message)
