@@ -14,11 +14,11 @@ function App() {
     const [isLoading, setIsLoading] = useState(true)
 
     const getUser = async () => {
-        const fetched = await axios({
+        const fetched = await fetch(`${process.env.REACT_APP_BACKEND}/user`, {
             method: 'GET',
-            withCredentials: 'true',
-            url: `${process.env.REACT_APP_BACKEND}/user`,
-        })
+            mode: 'cors',
+            credentials: 'include',
+        }).then(res => res.json())
         console.log('App.js', fetched)
         setUser(fetched.data)
         setIsLoading(false)
