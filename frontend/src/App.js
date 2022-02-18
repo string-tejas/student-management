@@ -15,6 +15,8 @@ function App() {
     const getUser = async () => {
         const fetched = await fetch(`${process.env.REACT_APP_BACKEND}/user`, {
             method: 'GET',
+            sameSite : 'none',
+            secure : 'true',
             credentials: 'include',
         }).then(data => data.json())
         console.log('App.js', fetched)
