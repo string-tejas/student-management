@@ -35,6 +35,8 @@ export default function Login({ getUser }) {
                         'Content-Type': 'application/json',
                     },
                     credentials: 'include',
+                    sameSite : 'none',
+                    secure : 'true',
                     body: JSON.stringify({
                         email: email,
                         password: password,
