@@ -13,10 +13,7 @@ const port = process.env.PORT || 5000
 // middlewares
 app.use(
     cors({
-        origin: [
-            'https://student-management-string-tejas.vercel.app',
-            'http://localhost:3000',
-        ],
+        origin: 'https://student-management-string-tejas.vercel.app',
         credentials: true,
     })
 )
@@ -25,6 +22,8 @@ app.use(express.json())
 app.use(
     session({
         secret: process.env.SESSION_KEY,
+        saveUninitialized: false,
+        resave: false,
         cookie: {
             sameSite: 'none',
             secure: true,
