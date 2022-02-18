@@ -22,9 +22,6 @@ app.use(
 )
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-initialize(passport)
-app.use(passport.initialize())
-app.use(passport.session())
 app.use(
     session({
         secret: process.env.SESSION_KEY,
@@ -35,6 +32,9 @@ app.use(
         },
     })
 )
+initialize(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
 // routers
 const userRouter = require('./routes/user')(passport)
